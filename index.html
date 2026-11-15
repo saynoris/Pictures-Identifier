@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Students Image Identification</title>
+<title>Student Identification</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
 <style>
 /* Layout: sticky progress header over a responsive photo grid; each card = photo + ID + name + confirm. */
@@ -105,7 +105,7 @@ label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color
 <body>
 <div class="wrap">
   <header>
-    <h1 id="title">Students Image Identification</h1>
+    <h1 id="title">Student Identification</h1>
     <p class="lede" id="lede">Find your picture. Type your student ID and full name under it, then press Confirm. Check that the picture is yours before you do.</p>
   </header>
   <div class="bar-wrap">
@@ -139,7 +139,7 @@ label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color
 let PHOTOS;
 try { PHOTOS = await (await fetch('photos.json')).json(); }
 catch (e) { document.getElementById('status').textContent = 'The pictures could not be loaded. Open the page from your website link, and make sure photos.json is in the same folder as index.html.'; return; }
-const VERSION = 'v7';
+const VERSION = 'v8';
 /* The form link is built into this page. No other file is needed for it. */
 const CFG = { formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdOkJwZ3w3XDyxb9TbcfAOV7jDhvzQrNeqnkFvg3GjNJrXduA/viewform?usp=pp_url&entry.11202372=KEY&entry.1759204116=FILE&entry.371872434=SID&entry.1828617015=NAME' };
 const FORM = (function () {
@@ -165,7 +165,7 @@ let query = '';
 let db = null;
 let canWrite = true;
 let loaded = false;
-const LS = 'student-id-entries-v2';
+const LS = 'student-id-entries-v3';
 const cards = {};
 
 function lsRead() { try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch (e) { return {}; } }
@@ -359,6 +359,7 @@ async function loadAdmin() {
 refresh();
 
 (async () => {
+  if (!ADMIN) { document.querySelector('.progress-row').hidden = true; document.querySelector('.seg').hidden = true; }
   if (ADMIN) {
     $('title').textContent = 'Student Identification: Admin';
     $('lede').textContent = 'Download the responses from your Google Sheet as a CSV file, choose it below, and every picture appears with its ID and name. Pictures marked Check have repeated or conflicting answers.';
